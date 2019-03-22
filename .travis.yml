@@ -1,0 +1,10 @@
+sudo: true
+language: python
+python:
+  - 3.6.1
+before_install:
+  - sudo apt-get update -qq
+install:
+  - pip install django
+script:
+  - python ./tests/unit_tests/travis_ci_confirm.py
