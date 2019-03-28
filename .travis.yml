@@ -7,4 +7,4 @@ before_install:
 install:
   - pip install django
 script:
-  - python ./tests/unit_tests/travis_ci_confirm.py
+  - python ./tests/unit_tests/travis_ci_builds_test.py

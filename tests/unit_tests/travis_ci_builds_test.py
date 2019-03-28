@@ -1,7 +1,9 @@
+#!/usr/bin/env python
 import unittest
 
+
 class TestTravisCI(unittest.TestCase):
-    
+
     """
     dummy test to check that Travis CI works
     """
