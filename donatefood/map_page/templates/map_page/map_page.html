@@ -1,26 +1,4 @@
 <!DOCTYPE html>
-$.ajax({
-
-method: "GET",
-
-url: "type your python script path here",
-
-data: {"place" : value},
-
-dataType: "text",
-
-success: function(result){
-
-var data=JSON.parse(result);
-
-console.log(result);
-
-}
-
-});
-
-});
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
 <script>
   $(function () {
@@ -68,12 +46,6 @@ console.log(result);
 
 <body>
 
-  <!-- Header -->
-  <header class="w3-container w3-blue w3-center" style="padding:128px 16px">
-    <h1 class="w3-margin w3-jumbo">Finding Food Banks</h1>
-    <p class="w3-xlarge">  </p>
-  </header>
-
   <!-- Second Grid -->
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
@@ -87,13 +59,6 @@ console.log(result);
     </div>
   </div>
 
-  <div>
-    <form action="foodbank_results" method="post">
-      <input type="text" name="info"><br>
-      <input type="foodbank_results" value="foodbank_results">
-    </form>
-
-  </div>
   </div>
 
   <div class="mapouter">
@@ -104,6 +69,8 @@ console.log(result);
     <style>
       .mapouter {
         position: relative;
+        margin-left: auto;
+        margin-right: auto;
         text-align: right;
         height: 608px;
         width: 600px;
@@ -118,7 +85,6 @@ console.log(result);
     </style>
 
   </div>
-  <!-- AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU -->
   </div>
   </div>
 
@@ -130,10 +96,10 @@ console.log(result);
 
   <div class="wrapper">
     <div class="profile">
-      <table id="userdata" border="2">
+      <table id="userdata" border="2" style="margin-left: auto; margin-right: auto;">
         <thead>
           <th>Name: </th>
-          <th>Address: /th>
+          <th>Address: </th>
           <th>Operating Hours: </th>
         </thead>
         <tbody>
