@@ -1,10 +1,13 @@
 sudo: true
 language: python
 python:
-  - 3.6.1
+- 3.6.1
 before_install:
-  - sudo apt-get update -qq
+- sudo apt-get update -qq
 install:
-  - pip install django
+- pip install django
 script:
-  - python ./tests/unit_tests/travis_ci_builds_test.py
+- python ./tests/unit_tests/travis_ci_builds_test.py
+notifications:
+  slack:
+    secure: vzCmfm180ihMxTV3/OLw1eRiiL18WfUPPHgW7+R1VT62UbDXH7Ii8Qm8mCHgidIlloX2OJ+wKm6r77nSzBBcGwRqAZv3fZmSVanNUh9wfzPbW573LVD4QpjtlXHWEbrJVxqFXW9ZSfm7QjRnK/WK/lp6iEMycdZMHtZIhfYvZbevSb8kvs2ZnFbHVgm9xB409DiqxX99buqdKvwutKgn1witPbBhV6cZWCNbw7GxfTJIux0TqaxjCsV8V7psX0pnGREzLp+eiYlEJcCTL6o6p2JABEsNJjDwt6EOSNQtoeKBXlv0bkAAMk3l9YOC3G2UZtR6riD7jdt0teNn0Hwm+qifWa4Kz1/CIzrw3Sk9X/aP+Ol6eQ/Y6B1rlVS0sN/TnH1Byx7kyN2dawXystDWLmWorREZkcqgsnHd4EI7M+KO2T669CmobplnqaDtVCky2Gulxf0Tjfk8BlMxwpoQaIVAlI2B3B1w/Ke+Tej/VWPkIvUpR5oE2dxOEpZTxRRSS7Cq9l3gZ4HNmbdfjUQ42P4l06MCR5SL8Qc8NCg/3buYpgpmLR1XyeLU32X+V9AYTSRQTTMbo8xG4i4CNqDtH0tdwOWaNAHY5YYno6e2veP9d1xrjyOZMsyC0Gk8jwvhoVXJsDAL6lm4HPr4DfYB28mdR2DvDmPgnfI3KAqJ9fI=
