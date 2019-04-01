@@ -23,16 +23,16 @@ console.log(result);
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
 <script>
-    $(function() {
-   var people = [];
-   $.getJSON('top_5_data.json', function(data) {
-       $.each(data.person, function(i, f) {
-          var tblRow = "<tr>" + "<td>" + f.name + "</td>" +
-           "<td>" + f.formatted_address + "</td>" + "<td>" + f.opening_hours + "</tr>"
-           $(tblRow).appendTo("#userdata tbody");
-     });
-   });
-});
+  $(function () {
+    var people = [];
+    $.getJSON('top_5_data.json', function (data) {
+      $.each(data.person, function (i, f) {
+        var tblRow = "<tr>" + "<td>" + f.name + "</td>" +
+          "<td>" + f.formatted_address + "</td>" + "<td>" + f.opening_hours + "</tr>"
+        $(tblRow).appendTo("#userdata tbody");
+      });
+    });
+  });
 </script>
 
 <html lang="en">
@@ -44,77 +44,118 @@ console.log(result);
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
-.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
-.fa-anchor,.fa-coffee {font-size:200px}
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Lato", sans-serif
+  }
+
+  .w3-bar,
+  h1,
+  button {
+    font-family: "Montserrat", sans-serif
+  }
+
+  .fa-anchor,
+  .fa-coffee {
+    font-size: 200px
+  }
 </style>
+
 <body>
 
-<!-- Header -->
-<header class="w3-container w3-grey w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">Finding Food Banks</h1>
-  <p class="w3-xlarge"> Hi </p>
-</header>
+  <!-- Header -->
+  <header class="w3-container w3-grey w3-center" style="padding:128px 16px">
+    <h1 class="w3-margin w3-jumbo">Finding Food Banks</h1>
+    <p class="w3-xlarge"> Hi </p>
+  </header>
 
-<!-- Second Grid -->
-<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-third w3-center">
-      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
-    </div>
+  <!-- Second Grid -->
+  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-third w3-center">
+        <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+      </div>
 
-    <div class="w3-twothird">
-      <h1>Google Maps will be below</h1>
-      <h5 class="w3-padding-32">Ok hi</h5>
+      <div class="w3-twothird">
+        <h1>Google Maps will be below</h1>
+        <h5 class="w3-padding-32">Ok hi</h5>
 
-      <p class="w3-text-grey">Hi</p>
+        <p class="w3-text-grey">Hi</p>
+      </div>
     </div>
   </div>
-</div>
 
-      <div>
-  <form action="foodbank_results" method="post">
-    <input type="text" name="info"><br>
-    <input type="foodbank_results" value="foodbank_results">
-</form>
+  <div>
+    <form action="foodbank_results" method="post">
+      <input type="text" name="info"><br>
+      <input type="foodbank_results" value="foodbank_results">
+    </form>
 
-</div>
-    </div>
-
-    <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="608" id="gmap_canvas" src="https://maps.google.com/maps?q=stockton%20food%20bank&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.emojilib.com">emojilib.com</a></div><style>.mapouter{position:relative;text-align:right;height:608px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:608px;width:600px;}</style>
-
-    </div>
-    <!-- AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU -->
   </div>
-</div>
+  </div>
 
-<div>
-  <script src="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=food%20bank%20%20Australia&inputtype=textquery&fields=formatted_address,name,opening_hours&key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU"></script>
-</div>
+  <div class="mapouter">
+    <div class="gmap_canvas"><iframe width="600" height="608" id="gmap_canvas"
+        src="https://maps.google.com/maps?q=stockton%20food%20bank&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+        scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.emojilib.com">emojilib.com</a>
+    </div>
+    <style>
+      .mapouter {
+        position: relative;
+        text-align: right;
+        height: 608px;
+        width: 600px;
+      }
 
-<div class="wrapper">
-<div class="profile">
-   <table id= "userdata" border="2">
-  <thead>
-            <th>Name: </th>
-            <th>Address: /th>
-            <th>Operating Hours: </th>
+      .gmap_canvas {
+        overflow: hidden;
+        background: none !important;
+        height: 608px;
+        width: 600px;
+      }
+    </style>
+
+  </div>
+  <!-- AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU -->
+  </div>
+  </div>
+
+  <div>
+    <script
+      src="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=food%20bank%20%20Australia&inputtype=textquery&fields=formatted_address,name,opening_hours&key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU">
+    </script>
+  </div>
+
+  <div class="wrapper">
+    <div class="profile">
+      <table id="userdata" border="2">
+        <thead>
+          <th>Name: </th>
+          <th>Address: /th>
+          <th>Operating Hours: </th>
         </thead>
-      <tbody>
+        <tbody>
 
-       </tbody>
-   </table>
+        </tbody>
+      </table>
 
-</div>
-</div>
+    </div>
+  </div>
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">
-  <div class="w3-xlarge w3-padding-32">
- </div>
- <p>Project developed by <a href="https://github.com/comp129-spr19/project2-osvaldo-s-children" target="_blank">Osvaldo's Children</a></p>
-</footer>
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-64 w3-center w3-opacity">
+    <div class="w3-xlarge w3-padding-32">
+    </div>
+    <p>Project developed by <a href="https://github.com/comp129-spr19/project2-osvaldo-s-children"
+        target="_blank">Osvaldo's Children</a></p>
+  </footer>
 
 
 </body>
+
 </html>
