@@ -1,4 +1,40 @@
 <!DOCTYPE html>
+$.ajax({
+
+method: "GET",
+
+url: "type your python script path here",
+
+data: {"place" : value},
+
+dataType: "text",
+
+success: function(result){
+
+var data=JSON.parse(result);
+
+console.log(result);
+
+}
+
+});
+
+});
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+<script>
+    $(function() {
+   var people = [];
+   $.getJSON('top_5_data.json', function(data) {
+       $.each(data.person, function(i, f) {
+          var tblRow = "<tr>" + "<td>" + f.name + "</td>" +
+           "<td>" + f.formatted_address + "</td>" + "<td>" + f.opening_hours + "</tr>"
+           $(tblRow).appendTo("#userdata tbody");
+     });
+   });
+});
+</script>
+
 <html lang="en">
 <title>Project2 | Food Bank</title>
 <meta charset="UTF-8">
@@ -36,8 +72,40 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
   </div>
 </div>
 
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge">Text here</h1>
+      <div>
+  <form action="foodbank_results" method="post">
+    <input type="text" name="info"><br>
+    <input type="foodbank_results" value="foodbank_results">
+</form>
+
+</div>
+    </div>
+
+    <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="608" id="gmap_canvas" src="https://maps.google.com/maps?q=stockton%20food%20bank&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.emojilib.com">emojilib.com</a></div><style>.mapouter{position:relative;text-align:right;height:608px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:608px;width:600px;}</style>
+
+    </div>
+    <!-- AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU -->
+  </div>
+</div>
+
+<div>
+  <script src="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=food%20bank%20%20Australia&inputtype=textquery&fields=formatted_address,name,opening_hours&key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU"></script>
+</div>
+
+<div class="wrapper">
+<div class="profile">
+   <table id= "userdata" border="2">
+  <thead>
+            <th>Name: </th>
+            <th>Address: /th>
+            <th>Operating Hours: </th>
+        </thead>
+      <tbody>
+
+       </tbody>
+   </table>
+
+</div>
 </div>
 
 <!-- Footer -->
