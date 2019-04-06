@@ -3,6 +3,8 @@
 <title>Project2 | Food Bank</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -16,6 +18,11 @@
   h5,
   h6 {
     font-family: "Lato", sans-serif
+  }
+
+  tr.title_entry
+  {
+    cursor:pointer;
   }
 
   .w3-bar,
@@ -33,45 +40,99 @@
 <body>
 
   <!-- Header -->
-  <header class="w3-container w3-grey w3-center" style="padding:128px 16px">
-    <h1 class="w3-margin w3-jumbo">Food Bank Finder</h1>
-    <p class="w3-xlarge"></p>
-    <a href="/map_page/" class="w3-button w3-blue w3-padding-large w3-large w3-margin-top">Find Nearest Food Banks</a>
+  <header class="w3-container w3-grey w3-center" style="padding:25px 1px">
+    <h1 class="w3-margin w3-jumbo">Event Registry</h1>
+    <p class="w3-small"></p>
   </header>
 
   <!-- Second Grid -->
+
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-    <div class="w3-content">
+      
+    {% comment %} <div class="w3-content"> {% endcomment %}
       <div class="w3-third w3-center">
-        <img src = "https://www.houstonfoodbank.org/wp-content/uploads/2018/01/homepage_boxfood-276x300.png" width = "220" height = "250">
+        <br><br>
+        <img height=200 src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fblog.uwgb.edu%2Fstudent-life%2Ffiles%2F2014%2F08%2Fpaper_grocery_bag_filled_with_produce_by_mike44nh-d4usz6t.png&f=1" >
       </div>
-
       <div class="w3-twothird">
-        <h1>Donate to Your Local Food Bank</h1>
-        <h5 class="w3-padding-32">Insert sentimentally-convincing statement here</h5>
-        <div class="w3-twothird">
-          <h1>Lorem Ipsum</h1>
-          <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</h5>
+        <h1>Food Bank Events and Needs</h1>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+          <!--Right now, these values are hardcoded in, but once we set up the backend, 
+          we will use jenja to query the database and display the results-->
+          <tr class="title_entry">
+            <td>Foodbank 1</td>
+            <td>Event/Need 1</td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
+            </td>
+          </tr>
+          <tr class="title_entry">
+            <td>Foodbank 2</td>
+            <td>Event/Need 2</td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
+            </td>
+          </tr>
+          <tr class="title_entry">
+            <td>Foodbank 3</td>
+            <td>Event/Need 3</td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
+            </td>
+          </tr>
+          <tr class="title_entry">
+            <td>Foodbank 4</td>
+            <td>Event/Need 4</td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
+            </td>
+          </tr>
+          <tr class="title_entry">
+            <td>Foodbank 5</td>
+            <td>Event/Need 5</td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
+            </td>
+          </tr>
+        </table><br>
         </div>
-      </div>
+      {% comment %} </div> {% endcomment %}
     </div>
-  </div>
 
-  <div class="w3-container w3-black w3-center w3-opacity w3-padding-54">
+  <!---<div class="w3-container w3-black w3-center w3-opacity w3-padding-54">
     <h1 class="w3-margin w3-large">Helping your local community grow</h1>
-  </div>
+  </div>-->
 
   <!-- Footer -->
-  <footer class="w3-container w3-padding-64 w3-center w3-opacity">
-    <div class="w3-xlarge w3-padding-22">
-    </div>
-    <p>Project developed by <a href="https://github.com/comp129-spr19/project2-osvaldo-s-children"
-        target="_blank">Osvaldo's Children</a></p>
-  </footer>
+  <div>
+    <footer class="w3-container w3-padding-16 w3-center w3-opacity">
+      <div class="w3-xlarge w3-padding-22">
+      </div>
+      <p>Project developed by <a href="https://github.com/comp129-spr19/project2-osvaldo-s-children"
+          target="_blank">Osvaldo's Children</a></p>
+    </footer>
+  </div>
 
 
 </body>
+
+<!--This allows the information in the row to be clicked on and drop down when clicked-->
+<script>
+  $('.title_entry').click(function(){
+    $(this).find('span').text(function(_, value){return value=='-'?'+':'-'});
+      $(this).nextUntil('tr.title_entry').slideToggle(100, function(){
+      });
+  });
+</script>
 
 </html>
