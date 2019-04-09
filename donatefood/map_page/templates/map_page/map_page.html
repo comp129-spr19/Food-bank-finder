@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places">
   window.onload = init
 
   function init() {
@@ -13,6 +12,39 @@
     var query = "https://maps.google.com/maps?ll=" + String(lat) + "," + String(lon) + "&q=food%20bank&output=embed&t=m&z=11";
     document.getElementById("google_map").src = query;
   }
+
+var map;
+var service;
+var infowindow;
+
+function initialize(position) {
+    var curLat = position.coords.latitude;
+    var curLon = position.coords.longitude;
+    /var currentLocation = new google.maps.LatLng(lat, lon);/
+
+  map = new google.maps.Map(document.getElementById('map'), {
+      locationBias: {lat: curLat, lng: curLon},
+      zoom: 15
+    });
+
+  var request = {
+    locationBias: {lat: curLat, lng: curLon},
+    radius: '2000',
+    type: ['food bank']
+  };
+
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+
+function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+      createMarker(results[i]);
+    }
+  }
+}
 
   
 </script>
@@ -100,7 +132,7 @@
 
   <div class="wrapper">
     <div class="profile">
-      <table id="userdata" border="2" style="margin-left: auto; margin-right: auto;">
+      <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
         <thead>
           <th>Name: </th>
           <th>Address: </th>
