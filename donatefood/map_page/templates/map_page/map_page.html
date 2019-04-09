@@ -1,53 +1,4 @@
 <!DOCTYPE html>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places">
-  window.onload = init
-
-  function init() {
-    navigator.geolocation.getCurrentPosition(showMap);
-  }
-
-  function showMap(position) {
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
-    var query = "https://maps.google.com/maps?ll=" + String(lat) + "," + String(lon) + "&q=food%20bank&output=embed&t=m&z=11";
-    document.getElementById("google_map").src = query;
-  }
-
-var map;
-var service;
-var infowindow;
-
-function initialize(position) {
-    var curLat = position.coords.latitude;
-    var curLon = position.coords.longitude;
-    /var currentLocation = new google.maps.LatLng(lat, lon);/
-
-  map = new google.maps.Map(document.getElementById('map'), {
-      locationBias: {lat: curLat, lng: curLon},
-      zoom: 15
-    });
-
-  var request = {
-    locationBias: {lat: curLat, lng: curLon},
-    radius: '2000',
-    type: ['food bank']
-  };
-
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
-}
-
-function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      createMarker(results[i]);
-    }
-  }
-}
-
-  
-</script>
 
 <html lang="en">
 <title>Project2 | Food Bank</title>
@@ -97,38 +48,48 @@ function callback(results, status) {
 
   </div>
 
-  <div class="mapouter">
-    <div class="gmap_canvas"><iframe id="google_map" width="600" height="608" id="gmap_canvas"
-        src="https://maps.google.com/maps?&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
-        scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.emojilib.com">emojilib.com</a>
-    </div>
-    <style>
-      .mapouter {
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: right;
-        height: 608px;
-        width: 600px;
+  <div id="map"></div>
+    <script>
+      var map;
+
+      function init() {
+        navigator.geolocation.getCurrentPosition(initMap);
       }
 
-      .gmap_canvas {
-        overflow: hidden;
-        background: none !important;
-        height: 608px;
-        width: 600px;
+      function initMap(position) {
+        var curLat = position.coords.latitude;
+        var curLon = position.coords.longitude;
+        var currentLocation = new google.maps.LatLng(curLat, curLon);
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: new google.maps.LatLng(curLat, curLon),
+          mapTypeId: 'terrain'
+        });
+
+        var request = {
+          location: currentLocation,
+          radius: '2000',
+          type: ['food bank']
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            for (var i = 0; i < results.length; i++) {
+              createMarker(results[i])
+            }
+
+            map.setCenter(currentLocation)
+          }
+        })
       }
-    </style>
-
-  </div>
-  </div>
-  </div>
-
-  {% comment %} <div>
-    <script
-      src="https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=food%20bank%20%20Australia&inputtype=textquery&fields=formatted_address,name,opening_hours&key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU">
     </script>
-  </div> {% endcomment %}
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places&callback=init&v=3.5">
+    </script>
+  </div>
+  </div>
 
   <div class="wrapper">
     <div class="profile">
