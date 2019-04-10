@@ -41,7 +41,7 @@
       </div>
 
       <div class="w3-twothird">
-        <h1>Maps and Results are Shown Below</h1>
+        <h1>Map and Results are Shown Below</h1>
       </div>
     </div>
   </div>
@@ -77,29 +77,44 @@
       service.nearbySearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           map.setCenter(currentLocation);
-          createMarkers(results);
-          printResults(results);
+          displayResults(results);
         }
       });
     }
 
-    function printResults(places) {
+    // This function handles both creating the markers and printing
+    // the results on the table below the map.  The reason for combining
+    // these two functionalities is because the GoogleMaps Places API
+    // requires gathering detailed information about a place one-by-one,
+    // so first we must get the list from our nearbySearch and then loop
+    // through each result to get the details.  Therefore it most efficient
+    // to combine and do this only once.  Also, because of the delay of
+    // response from Google, we can't loop through the results and pass 
+    // a list of all the details to functions because the code will execute
+    // and send an empty list before the first response comes back.
+    function displayResults(places) {
       var table = document.getElementById("google_map_results");
+      var bounds = new google.maps.LatLngBounds();
       service_detail = new google.maps.places.PlacesService(map);
+      var count = 0;
+      var length = places.length;
       for (var i = 0, place; place = places[i]; i++) {
+        count++;
         // gets more details on each place
         var request = {
           reference: place.reference,
-          fields: ['name', 'formatted_address', 'formatted_phone_number', 'website', 'opening_hours']
+          fields: ['name', 'formatted_address', 'formatted_phone_number', 
+                   'website', 'opening_hours', 'geometry', 'icon']
         };
 
+        var infowindow = new google.maps.InfoWindow();
         service_detail.getDetails(request, function(results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
-            // add the data into the table
-            console.log(results);
+            // store the detailed value to variables
+
             var name = results.name;
             var address = results.formatted_address;
-            var hours = "None listed";
+            var hours = "Not listed";
             if (results.opening_hours != null) {
               hours = "Hours:<br>"
               for (var i = 0; i < results.opening_hours.weekday_text.length; i++) {
@@ -107,8 +122,41 @@
               }
             }
             var phone = results.formatted_phone_number;
-            var website = results.website;
+            var website = "Not listed";
+            if (results.website != null) {
+              var website = results.website;
+            }
+            
+            // add the marker
+            // first, use the image relating to the type of place
+            var image = {
+              url: results.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+            
+            var marker = new google.maps.Marker({
+              map: map,
+              icon: image,
+              title: results.name,
+              position: results.geometry.location
+            });
+            
+            // adds click listener that shows more info when user clicks on icon
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
+                address + '</div>');
+              infowindow.open(map, this);
+            });
+            
+            bounds.extend(results.geometry.location);
+            if (count == length) {
+              map.fitBounds(bounds);
+            }
 
+            // add the values to the table
             // Value of -1 for insertRow inserts column at end of table
             var row = table.insertRow(-1);
             var name_cell = row.insertCell(0);
@@ -128,32 +176,7 @@
         });
       }
     }
-
-    function createMarkers(places) {
-      var bounds = new google.maps.LatLngBounds();
-      
-      for (var i = 0, place; place = places[i]; i++) {
-        // console.log(place)
-        var image = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        var marker = new google.maps.Marker({
-          map: map,
-          icon: image,
-          title: place.name,
-          position: place.geometry.location
-        });
-
-        bounds.extend(place.geometry.location);
-      }
-      map.fitBounds(bounds);
-    }
-
+  
     google.maps.event.addDomListener(window, 'load', init);
   </script>
 
