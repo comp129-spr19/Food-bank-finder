@@ -71,22 +71,39 @@
         location: currentLocation,
         radius: '3000',
         keyword: 'food bank',
-        fields: ['formatted_address', 'name', 'opening_hours']
+        //fields: ['formatted_address', 'name', 'opening_hours', 'formatted_phone_number', 'website']
       };
 
       service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           createMarkers(results)
+          printResults(results)
           map.setCenter(currentLocation)
         }
       })
     }
 
+    function printResults(places) {
+      // var placesList = document.getElementById('places');
+      var table = document.getElementById("google_map_results");
+      for (var i = 0, place; place = places[i]; i++) {
+        // var li = document.createElement('li');
+        // li.textContent = place.name;
+        // placesList.appendChild(li);
+        // Value of -1 for insertRow inserts column at end of table
+        var row = table.insertRow(-1);
+        var cell0 = row.insertCell(0);
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        cell0.innerHTML = place.name;
+        cell1.innerHTML = place.vicinity;
+      }
+    }
+
     function createMarkers(places) {
       var bounds = new google.maps.LatLngBounds();
-      var placesList = document.getElementById('places');
-
+      
       for (var i = 0, place; place = places[i]; i++) {
         console.log(place)
         var image = {
@@ -104,10 +121,6 @@
           position: place.geometry.location
         });
 
-        var li = document.createElement('li');
-        li.textContent = place.name;
-        placesList.appendChild(li);
-
         bounds.extend(place.geometry.location);
       }
       map.fitBounds(bounds);
@@ -120,7 +133,7 @@
     <div style="width:100%; height:100%" id="map"></div>
   </div>
 
-  <div id="places"></div>
+  <!--<div id="places"></div>-->
 
   <div class="wrapper">
     <div class="profile">
