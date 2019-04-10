@@ -70,34 +70,62 @@
       var request = {
         location: currentLocation,
         radius: '3000',
-        keyword: 'food bank',
-        //fields: ['formatted_address', 'name', 'opening_hours', 'formatted_phone_number', 'website']
+        keyword: 'food bank'
       };
 
       service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, function(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          createMarkers(results)
-          printResults(results)
-          map.setCenter(currentLocation)
+          map.setCenter(currentLocation);
+          createMarkers(results);
+          printResults(results);
         }
-      })
+      });
     }
 
     function printResults(places) {
-      // var placesList = document.getElementById('places');
       var table = document.getElementById("google_map_results");
+      service_detail = new google.maps.places.PlacesService(map);
       for (var i = 0, place; place = places[i]; i++) {
-        // var li = document.createElement('li');
-        // li.textContent = place.name;
-        // placesList.appendChild(li);
-        // Value of -1 for insertRow inserts column at end of table
-        var row = table.insertRow(-1);
-        var cell0 = row.insertCell(0);
-        var cell1 = row.insertCell(1);
-        var cell2 = row.insertCell(2);
-        cell0.innerHTML = place.name;
-        cell1.innerHTML = place.vicinity;
+        // gets more details on each place
+        var request = {
+          reference: place.reference,
+          fields: ['name', 'formatted_address', 'formatted_phone_number', 'website', 'opening_hours']
+        };
+
+        service_detail.getDetails(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            // add the data into the table
+            console.log(results);
+            var name = results.name;
+            var address = results.formatted_address;
+            var hours = "None listed";
+            if (results.opening_hours != null) {
+              hours = "Hours:<br>"
+              for (var i = 0; i < results.opening_hours.weekday_text.length; i++) {
+                hours += results.opening_hours.weekday_text[i] + "<br>";
+              }
+            }
+            var phone = results.formatted_phone_number;
+            var website = results.website;
+
+            // Value of -1 for insertRow inserts column at end of table
+            var row = table.insertRow(-1);
+            var name_cell = row.insertCell(0);
+            var address_cell = row.insertCell(1);
+            var hours_cell = row.insertCell(2);
+            var phone_cell = row.insertCell(3);
+            var website_cell = row.insertCell(4);
+            name_cell.innerHTML = name;
+            address_cell.innerHTML = address;
+            hours_cell.innerHTML = hours;
+            phone_cell.innerHTML = phone;
+            website_cell.innerHTML = website;
+          }
+          else {
+            console.log(google.maps.places.PlacesServiceStatus.OK);
+          }
+        });
       }
     }
 
@@ -105,7 +133,7 @@
       var bounds = new google.maps.LatLngBounds();
       
       for (var i = 0, place; place = places[i]; i++) {
-        console.log(place)
+        // console.log(place)
         var image = {
           url: place.icon,
           size: new google.maps.Size(71, 71),
@@ -139,9 +167,11 @@
     <div class="profile">
       <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
         <thead>
-          <th>Name: </th>
-          <th>Address: </th>
-          <th>Operating Hours: </th>
+          <th>Name:</th>
+          <th>Address:</th>
+          <th>Operating Hours:</th>
+          <th>Phone Number:</th>
+          <th>Website:</th>
         </thead>
         <tbody>
 
