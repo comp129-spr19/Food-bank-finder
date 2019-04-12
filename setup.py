@@ -2,8 +2,9 @@ from setuptools import setup
 
 REQUIRED_PACKAGES = [
     'django==2.1.7',
-    'pycodestyle==2.5.0',
     'pre-commit==1.14.4',
+    'pycodestyle==2.5.0',
+    'selenium==3.141.0',
     'setuptools==27.2.0'
 ]
 

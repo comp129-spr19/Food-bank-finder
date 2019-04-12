@@ -5,7 +5,7 @@ python:
 before_install:
 - sudo apt-get update -qq
 install:
-- pip install django
+- python setup.py install
 - curl -L https://www.npmjs.com/install.sh | sh
 - npm install -g qunit
 lint:
