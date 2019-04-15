@@ -48,41 +48,41 @@
 
   <!-- Google Maps Embed Grid -->
 
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
-    <script>
-      var map;
+  <script>
+    var map;
 
-      function init() {
-        navigator.geolocation.getCurrentPosition(initMap);
-      }
+    function init() {
+      navigator.geolocation.getCurrentPosition(initMap);
+    }
 
-      function initMap(position) {
-        var curLat = position.coords.latitude;
-        var curLon = position.coords.longitude;
-        var currentLocation = new google.maps.LatLng(curLat, curLon);
+    function initMap(position) {
+      var curLat = position.coords.latitude;
+      var curLon = position.coords.longitude;
+      var currentLocation = new google.maps.LatLng(curLat, curLon);
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: currentLocation,
-          mapTypeId: 'terrain'
-        });
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: currentLocation,
+        mapTypeId: 'terrain'
+      });
 
-        var request = {
-          location: currentLocation,
-          radius: '3000',
-          keyword: 'food bank'
-        };
+      var request = {
+        location: currentLocation,
+        radius: '3000',
+        keyword: 'food bank'
+      };
 
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            map.setCenter(currentLocation);
-            displayResults(results);
-          }
-        });
-      }
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          map.setCenter(currentLocation);
+          displayResults(results);
+        }
+      });
+    }
 
     // This function handles both creating the markers and printing
     // the results on the table below the map.  The reason for combining
@@ -173,9 +173,8 @@
             hours_cell.innerHTML = hours;
             phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
             if (website != "Not listed") {
-               website_cell.innerHTML = "<a href='" + website + "'>" + website + "</a>";
-            }
-            else {
+              website_cell.innerHTML = "<a href='" + website + "'>" + website + "</a>";
+            } else {
               website_cell.innerHTML = website;
             }
           } else {
@@ -191,6 +190,29 @@
   <div style="width:600px; height:600px; margin-left: auto; margin-right: auto;">
     <div style="width:100%; height:100%" id="map"></div>
   </div>
+
+
+
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 80%;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: px solid #ddd;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+  </head>
+
+  <h2 align="center">Food Banks Nearby</h2>
 
   <!--<div id="places"></div>-->
 
