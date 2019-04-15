@@ -23,6 +23,25 @@ class TestStringMethods(unittest.TestCase):
         mp = chrome.findElementById("map")
         self.assertFalse(mp is None)
 
+        hm = chrome.findElementById("home_button")
+        self.assertFalse(hm is None)
+
+        kill_server(proc)
+
+    def test_map_page_results_not_none(self):
+        proc = run_server()
+
+        chrome = get_chromedriver()
+        chrome.implicitly_wait(30)
+        chrome.maximize_window()
+
+        chrome.get(LOCAL_HOST + 'map_page/')
+
+        # gm = chrome.findElementById("google_map_results")
+
+        # Get table entries and assert the length is >= 1
+        self.assertFalse(True)
+
         kill_server(proc)
 
 
