@@ -33,11 +33,11 @@
 
 <body>
 
-  <!-- Second Grid -->
+  <!-- First Grid -->
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
       <div class="w3-third w3-center">
-        <img src = "http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width = "250" height = "250">
+        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width="250" height="250">
       </div>
 
       <div class="w3-twothird">
@@ -46,41 +46,43 @@
     </div>
   </div>
 
-  <!-- Import Google Maps API and Places Library -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+  <!-- Google Maps Embed Grid -->
 
-  <script>
-    var map;
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
-    function init() {
-      navigator.geolocation.getCurrentPosition(initMap);
-    }
+    <script>
+      var map;
 
-    function initMap(position) {
-      var curLat = position.coords.latitude;
-      var curLon = position.coords.longitude;
-      var currentLocation = new google.maps.LatLng(curLat, curLon);
+      function init() {
+        navigator.geolocation.getCurrentPosition(initMap);
+      }
 
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: currentLocation,
-        mapTypeId: 'terrain'
-      });
+      function initMap(position) {
+        var curLat = position.coords.latitude;
+        var curLon = position.coords.longitude;
+        var currentLocation = new google.maps.LatLng(curLat, curLon);
 
-      var request = {
-        location: currentLocation,
-        radius: '3000',
-        keyword: 'food bank'
-      };
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: currentLocation,
+          mapTypeId: 'terrain'
+        });
 
-      service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, function(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          map.setCenter(currentLocation);
-          displayResults(results);
-        }
-      });
-    }
+        var request = {
+          location: currentLocation,
+          radius: '3000',
+          keyword: 'food bank'
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, function (results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            map.setCenter(currentLocation);
+            displayResults(results, position);
+          }
+        });
+      }
 
     // This function handles both creating the markers and printing
     // the results on the table below the map.  The reason for combining
@@ -89,10 +91,10 @@
     // so first we must get the list from our nearbySearch and then loop
     // through each result to get the details.  Therefore it most efficient
     // to combine and do this only once.  Also, because of the delay of
-    // response from Google, we can't loop through the results and pass 
+    // response from Google, we can't loop through the results and pass
     // a list of all the details to functions because the code will execute
     // and send an empty list before the first response comes back.
-    function displayResults(places) {
+    function displayResults(places, position) {
       var table = document.getElementById("google_map_results");
       var bounds = new google.maps.LatLngBounds();
       service_detail = new google.maps.places.PlacesService(map);
@@ -103,12 +105,13 @@
         // gets more details on each place
         var request = {
           reference: place.reference,
-          fields: ['name', 'formatted_address', 'formatted_phone_number', 
-                   'website', 'opening_hours', 'geometry', 'icon']
+          fields: ['name', 'formatted_address', 'formatted_phone_number',
+            'website', 'opening_hours', 'geometry', 'icon'
+          ]
         };
 
         var infowindow = new google.maps.InfoWindow();
-        service_detail.getDetails(request, function(results, status) {
+        service_detail.getDetails(request, function (results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             // store the detailed value to variables
 
@@ -126,7 +129,7 @@
             if (results.website != null) {
               var website = results.website;
             }
-            
+
             // add the marker
             // first, use the image relating to the type of place
             var image = {
@@ -136,28 +139,17 @@
               anchor: new google.maps.Point(17, 34),
               scaledSize: new google.maps.Size(25, 25)
             };
-            
+
             var marker = new google.maps.Marker({
               map: map,
               icon: image,
               title: results.name,
               position: results.geometry.location
             });
-            
-            // adds click listener that shows more info when user clicks on icon
-            google.maps.event.addListener(marker, 'click', function() {
-              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
-                address + '</div>');
-              infowindow.open(map, this);
-            });
-            
-            bounds.extend(results.geometry.location);
-            if (count == length) {
-              map.fitBounds(bounds);
-            }
 
             // add the values to the table
             // Value of -1 for insertRow inserts column at end of table
+            // @dvasavda website and phone are now hyperlinked
             var row = table.insertRow(-1);
             var name_cell = row.insertCell(0);
             var address_cell = row.insertCell(1);
@@ -165,18 +157,40 @@
             var phone_cell = row.insertCell(3);
             var website_cell = row.insertCell(4);
             name_cell.innerHTML = name;
-            address_cell.innerHTML = address;
+            url_query_address = address.replace(/[ ]/g, '+');
+            curLat = position.coords.latitude;
+            curLon = position.coords.longitude;
+            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
+                              "' target='_blank' >" + address + "</a>";
+            address_cell.innerHTML = directions_link;
             hours_cell.innerHTML = hours;
-            phone_cell.innerHTML = phone;
-            website_cell.innerHTML = website;
-          }
-          else {
+            phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
+            if (website != "Not listed") {
+               website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
+            }
+            else {
+              website_cell.innerHTML = website;
+            }
+
+            // adds click listener that shows more info when user clicks on icon
+            google.maps.event.addListener(marker, 'click', function () {
+              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
+                directions_link + '</div>');
+              infowindow.open(map, this);
+            });
+
+            bounds.extend(results.geometry.location);
+            if (count == length) {
+              map.fitBounds(bounds);
+            }
+
+          } else {
             console.log(google.maps.places.PlacesServiceStatus.OK);
           }
         });
       }
     }
-  
+
     google.maps.event.addDomListener(window, 'load', init);
   </script>
 
