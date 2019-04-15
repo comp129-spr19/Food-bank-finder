@@ -160,7 +160,7 @@
             url_query_address = address.replace(/[ ]/g, '+');
             curLat = position.coords.latitude;
             curLon = position.coords.longitude;
-            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address + 
+            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
                               "' target='_blank' >" + address + "</a>";
             address_cell.innerHTML = directions_link;
             hours_cell.innerHTML = hours;
