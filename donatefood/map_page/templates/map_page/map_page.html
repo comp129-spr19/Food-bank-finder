@@ -33,7 +33,7 @@
 
 <body>
 
-  <!-- Second Grid -->
+  <!-- First Grid -->
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
       <div class="w3-third w3-center">
@@ -46,42 +46,43 @@
     </div>
   </div>
 
-  <!-- Import Google Maps API and Places Library -->
-  <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+  <!-- Google Maps Embed Grid -->
 
-  <script>
-    var map;
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
-    function init() {
-      navigator.geolocation.getCurrentPosition(initMap);
-    }
+    <script>
+      var map;
 
-    function initMap(position) {
-      var curLat = position.coords.latitude;
-      var curLon = position.coords.longitude;
-      var currentLocation = new google.maps.LatLng(curLat, curLon);
+      function init() {
+        navigator.geolocation.getCurrentPosition(initMap);
+      }
 
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: currentLocation,
-        mapTypeId: 'terrain'
-      });
+      function initMap(position) {
+        var curLat = position.coords.latitude;
+        var curLon = position.coords.longitude;
+        var currentLocation = new google.maps.LatLng(curLat, curLon);
 
-      var request = {
-        location: currentLocation,
-        radius: '3000',
-        keyword: 'food bank'
-      };
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: currentLocation,
+          mapTypeId: 'terrain'
+        });
 
-      service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, function (results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          map.setCenter(currentLocation);
-          displayResults(results);
-        }
-      });
-    }
+        var request = {
+          location: currentLocation,
+          radius: '3000',
+          keyword: 'food bank'
+        };
+
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, function (results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            map.setCenter(currentLocation);
+            displayResults(results);
+          }
+        });
+      }
 
     // This function handles both creating the markers and printing
     // the results on the table below the map.  The reason for combining
@@ -160,6 +161,7 @@
 
             // add the values to the table
             // Value of -1 for insertRow inserts column at end of table
+            // @dvasavda website and phone are now hyperlinked
             var row = table.insertRow(-1);
             var name_cell = row.insertCell(0);
             var address_cell = row.insertCell(1);
@@ -169,8 +171,13 @@
             name_cell.innerHTML = name;
             address_cell.innerHTML = address;
             hours_cell.innerHTML = hours;
-            phone_cell.innerHTML = phone;
-            website_cell.innerHTML = website;
+            phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
+            if (website != "Not listed") {
+               website_cell.innerHTML = "<a href='" + website + "'>" + website + "</a>";
+            }
+            else {
+              website_cell.innerHTML = website;
+            }
           } else {
             console.log(google.maps.places.PlacesServiceStatus.OK);
           }
