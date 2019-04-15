@@ -37,7 +37,7 @@
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
       <div class="w3-third w3-center">
-        <img src = "http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width = "250" height = "250">
+        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width="250" height="250">
       </div>
 
       <div class="w3-twothird">
@@ -47,7 +47,8 @@
   </div>
 
   <!-- Import Google Maps API and Places Library -->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
   <script>
     var map;
@@ -74,7 +75,7 @@
       };
 
       service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, function(results, status) {
+      service.nearbySearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           map.setCenter(currentLocation);
           displayResults(results);
@@ -89,7 +90,7 @@
     // so first we must get the list from our nearbySearch and then loop
     // through each result to get the details.  Therefore it most efficient
     // to combine and do this only once.  Also, because of the delay of
-    // response from Google, we can't loop through the results and pass 
+    // response from Google, we can't loop through the results and pass
     // a list of all the details to functions because the code will execute
     // and send an empty list before the first response comes back.
     function displayResults(places) {
@@ -103,12 +104,13 @@
         // gets more details on each place
         var request = {
           reference: place.reference,
-          fields: ['name', 'formatted_address', 'formatted_phone_number', 
-                   'website', 'opening_hours', 'geometry', 'icon']
+          fields: ['name', 'formatted_address', 'formatted_phone_number',
+            'website', 'opening_hours', 'geometry', 'icon'
+          ]
         };
 
         var infowindow = new google.maps.InfoWindow();
-        service_detail.getDetails(request, function(results, status) {
+        service_detail.getDetails(request, function (results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             // store the detailed value to variables
 
@@ -126,7 +128,7 @@
             if (results.website != null) {
               var website = results.website;
             }
-            
+
             // add the marker
             // first, use the image relating to the type of place
             var image = {
@@ -136,21 +138,21 @@
               anchor: new google.maps.Point(17, 34),
               scaledSize: new google.maps.Size(25, 25)
             };
-            
+
             var marker = new google.maps.Marker({
               map: map,
               icon: image,
               title: results.name,
               position: results.geometry.location
             });
-            
+
             // adds click listener that shows more info when user clicks on icon
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'click', function () {
               infowindow.setContent('<div><strong>' + name + '</strong><br>' +
                 address + '</div>');
               infowindow.open(map, this);
             });
-            
+
             bounds.extend(results.geometry.location);
             if (count == length) {
               map.fitBounds(bounds);
@@ -169,14 +171,13 @@
             hours_cell.innerHTML = hours;
             phone_cell.innerHTML = phone;
             website_cell.innerHTML = website;
-          }
-          else {
+          } else {
             console.log(google.maps.places.PlacesServiceStatus.OK);
           }
         });
       }
     }
-  
+
     google.maps.event.addDomListener(window, 'load', init);
   </script>
 
