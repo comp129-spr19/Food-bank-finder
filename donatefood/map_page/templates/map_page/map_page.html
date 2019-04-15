@@ -79,7 +79,7 @@
         service.nearbySearch(request, function (results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
             map.setCenter(currentLocation);
-            displayResults(results);
+            displayResults(results, position);
           }
         });
       }
@@ -94,7 +94,7 @@
     // response from Google, we can't loop through the results and pass
     // a list of all the details to functions because the code will execute
     // and send an empty list before the first response comes back.
-    function displayResults(places) {
+    function displayResults(places, position) {
       var table = document.getElementById("google_map_results");
       var bounds = new google.maps.LatLngBounds();
       service_detail = new google.maps.places.PlacesService(map);
@@ -147,18 +147,6 @@
               position: results.geometry.location
             });
 
-            // adds click listener that shows more info when user clicks on icon
-            google.maps.event.addListener(marker, 'click', function () {
-              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
-                address + '</div>');
-              infowindow.open(map, this);
-            });
-
-            bounds.extend(results.geometry.location);
-            if (count == length) {
-              map.fitBounds(bounds);
-            }
-
             // add the values to the table
             // Value of -1 for insertRow inserts column at end of table
             // @dvasavda website and phone are now hyperlinked
@@ -169,7 +157,12 @@
             var phone_cell = row.insertCell(3);
             var website_cell = row.insertCell(4);
             name_cell.innerHTML = name;
-            address_cell.innerHTML = address;
+            url_query_address = address.replace(/[ ]/g, '+');
+            curLat = position.coords.latitude;
+            curLon = position.coords.longitude;
+            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address + 
+                              "' target='_blank' >" + address + "</a>";
+            address_cell.innerHTML = directions_link;
             hours_cell.innerHTML = hours;
             phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
             if (website != "Not listed") {
@@ -178,6 +171,19 @@
             else {
               website_cell.innerHTML = website;
             }
+
+            // adds click listener that shows more info when user clicks on icon
+            google.maps.event.addListener(marker, 'click', function () {
+              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
+                directions_link + '</div>');
+              infowindow.open(map, this);
+            });
+
+            bounds.extend(results.geometry.location);
+            if (count == length) {
+              map.fitBounds(bounds);
+            }
+
           } else {
             console.log(google.maps.places.PlacesServiceStatus.OK);
           }
