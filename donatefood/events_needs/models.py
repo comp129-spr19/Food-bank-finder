@@ -9,7 +9,7 @@ from django.conf import settings
 # Within the table created are the fields of our table
 # Todo: eradicate magic numbers
 class FoodBanks(models.Model):
-    food_bank_id = models.ForeignKey("apps.Model", on_delete=models.CASCADE)
+    #food_bank_id = models.ForeignKey("apps.Model", on_delete=models.CASCADE)
     food_bank_name = models.CharField(max_length = 100)
 
 
