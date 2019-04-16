@@ -19,7 +19,7 @@ class FoodBanks(models.Model):
 
 
 class FoodBankEvents(models.Model):
-    food_bank_id = models.ForeignKey(FoodBanks, on_delete=models.CASCADE)
+    #food_bank_id = models.ForeignKey(FoodBanks, on_delete=models.CASCADE)
     food_bank_event = models.CharField(max_length=100)
     food_bank_date = models.DateTimeField('Event Date')
     food_bank_description = models.TextField(blank=True)
