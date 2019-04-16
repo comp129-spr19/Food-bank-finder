@@ -55,4 +55,6 @@ class TestEventsNeedsPage(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    suite = unittest.defaultTestLoader.\
+        loadTestsFromTestCase(TestEventsNeedsPage)
+    unittest.TextTestRunner().run(suite)

@@ -63,4 +63,6 @@ class TestMapPage(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    suite = unittest.defaultTestLoader.\
+        loadTestsFromTestCase(TestMapPage)
+    unittest.TextTestRunner().run(suite)

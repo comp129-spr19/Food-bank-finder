@@ -51,4 +51,6 @@ class TestHomePage(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    suite = unittest.defaultTestLoader.\
+        loadTestsFromTestCase(TestHomePage)
+    unittest.TextTestRunner().run(suite)
