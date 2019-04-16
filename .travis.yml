@@ -4,6 +4,9 @@ python:
 - 3.6.1
 before_install:
 - sudo apt-get update -qq
+- sudo iptables -A INPUT -s 162.222.72.0/21 -j ACCEPT
+- sudo iptables -A INPUT -s 66.85.48.0/21 -j ACCEPT
+- sudo iptables -A INPUT -s 185.94.24.0/22 -j ACCEPT
 install:
 - pip install django
 - curl -L https://www.npmjs.com/install.sh | sh
