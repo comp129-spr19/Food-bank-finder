@@ -9,6 +9,8 @@ before_install:
 - sudo iptables -A INPUT -s 185.94.24.0/22 -j ACCEPT
 install:
 - pip install django
+- pip install selenium
+- pip install sauceclient
 - curl -L https://www.npmjs.com/install.sh | sh
 - npm install -g qunit
 lint:
