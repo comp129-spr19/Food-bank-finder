@@ -43,10 +43,10 @@ class TestHomePage(unittest.TestCase):
     def test_home_page_layout(self):
         self.driver.get(LOCAL_HOST)
 
-        en = self.driver.find_element_by_id("events_needs_button")
+        en = self.driver.find_element_by_id("eventsNeedsButton")
         self.assertFalse(en is None)
 
-        mp = self.driver.find_element_by_id("map_page_button")
+        mp = self.driver.find_element_by_id("mapPageButton")
         self.assertFalse(mp is None)
 
 
