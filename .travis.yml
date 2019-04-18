@@ -18,7 +18,11 @@ lint:
 script:
 - python ./tests/unit_tests/travis_ci_builds_test.py
 - qunit 'tests/unit_tests/js/*_test.js'
-- python ./tests/functional/*_test.py
+
+# Continuous Integration Tests
+- python ./tests/functional/events_needs_test.py
+- python ./tests/functional/home_page_test.py
+- python ./tests/functional/map_page_test.py
 notifications:
   slack:
     secure: XyplTun0kKTAGM2uAeqL0y3vt7vyghOad/ZOQ/V9YOYj6Ij+s63bWS6ytk44diC6j48XhcCqQlwi7RDINNCASWY+JTY7n4POZju6SYjsOt9hwXFyFKT3GXr2vpG9jLs/21ohdS5JrsjqC0xa0B7uyVPRifDNVVY4kdKSZdurPzbpb8YmupE30uTZxi8ImokWd1832tbCYF4fH3pLGeLS97MkElgpw4YHTABnNy0kl5sNOkQJFsGDCDUHaPr4yVwRV7Wh0KN/kGv7SHxSKiyL8GWUde90uj5n7r7dcoulTT270yxl705cZxMEpHDvDPmeKSBeKORE/ZvaYdJ1IohL13PzgXmlqg5hmNwI0Q5DLSHEyaQ8x3gujhslR7jtRHSxelVzbunrBn7FpG3ULKx5yM8DknAyIbJBx6icyxHlDj1ERn0s4HLNHFqO41xNFC1vPfxynIJAdr1bYsl6LWqLeMQbJTqk61fZGD7gEo/sDTgUFvH/k9oMKefm4Pu7go7VTHjZsNkFFrHxmGAQH69lIgKSZ2tLKCEanvBjBijOLjREWan3zGsefZBqJTLvu8kY+5vm85SmOHHYsGbxiZx2GTa9WZ+GW5c6YXQfNtwNeNGImg/y6xMESr2nWUGP41VCL3e0KVGXsRYQhNHQB+6D9C9Ozgh5ZParx6hr01JVXmw=
