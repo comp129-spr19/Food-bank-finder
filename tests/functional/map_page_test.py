@@ -43,19 +43,19 @@ class TestMapPage(unittest.TestCase):
     def test_map_page_layout(self):
         self.driver.get(LOCAL_HOST + 'map_page/')
 
-        gm = self.driver.find_element_by_name("google_map_results")
+        gm = self.driver.find_element_by_id("google_map_results")
         self.assertFalse(gm is None)
 
-        mp = self.driver.find_element_by_name("map")
+        mp = self.driver.find_element_by_id("map")
         self.assertFalse(mp is None)
 
-        hm = self.driver.find_element_by_name("home_button")
+        hm = self.driver.find_element_by_id("home_button")
         self.assertFalse(hm is None)
 
     def test_map_page_results_not_none(self):
         self.driver.get(LOCAL_HOST + 'map_page/')
 
-        gm = self.driver.find_element_by_name("google_map_results")
+        gm = self.driver.find_element_by_id("google_map_results")
         self.assertFalse(gm is None)
 
         # Get table entries and assert the length is >= 1
