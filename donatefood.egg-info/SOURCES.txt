@@ -1,8 +1,0 @@
-README.md
-setup.py
-donatefood/manage.py
-donatefood.egg-info/PKG-INFO
-donatefood.egg-info/SOURCES.txt
-donatefood.egg-info/dependency_links.txt
-donatefood.egg-info/requires.txt
-donatefood.egg-info/top_level.txt
