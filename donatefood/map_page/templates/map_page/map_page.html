@@ -3,11 +3,12 @@
 <html lang="en">
 <title>Project2 | Food Bank</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <style>
   body,
   h1,
@@ -32,19 +33,6 @@
 </style>
 
 <body>
-
-  <!-- First Grid -->
-  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-    <div class="w3-content">
-      <div class="w3-third w3-center">
-        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" alt="Google Maps" width="250" height="250">
-      </div>
-
-      <div class="w3-twothird">
-        <h1>Map and Results are Shown Below</h1>
-      </div>
-    </div>
-  </div>
 
   <!-- Google Maps Embed Grid -->
 
@@ -240,26 +228,27 @@
     }
   </style>
 
-  <h2 align="center">Food Banks Nearby</h2>
-
   <!--<div id="places"></div>-->
 
-  <div class="wrapper">
-    <div class="profile">
-      <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
-        <thead>
-          <th>Name:</th>
-          <th>Direction Overview:</th>
-          <th>Address:</th>
-          <th>Operating Hours:</th>
-          <th>Phone Number:</th>
-          <th>Website:</th>
-        </thead>
-        <tbody>
+  <div class="container">
+  <h2 align="center">Food Banks Nearby</h2>
+    <div class="table-responsive">
+      <div class="profile">
+        <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
+          <thead>
+            <th>Name:</th>
+            <th>Direction Overview:</th>
+            <th>Address:</th>
+            <th>Operating Hours:</th>
+            <th>Phone Number:</th>
+            <th>Website:</th>
+          </thead>
+          <tbody>
 
-        </tbody>
-      </table>
+          </tbody>
+        </table>
 
+      </div>
     </div>
   </div>
 
