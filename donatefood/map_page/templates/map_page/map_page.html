@@ -37,7 +37,7 @@
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
       <div class="w3-third w3-center">
-        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width="250" height="250">
+        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" alt="Google Maps" width="250" height="250">
       </div>
 
       <div class="w3-twothird">
@@ -48,8 +48,7 @@
 
   <!-- Google Maps Embed Grid -->
 
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
     <script>
       var map;
@@ -152,14 +151,38 @@
             // @dvasavda website and phone are now hyperlinked
             var row = table.insertRow(-1);
             var name_cell = row.insertCell(0);
-            var address_cell = row.insertCell(1);
-            var hours_cell = row.insertCell(2);
-            var phone_cell = row.insertCell(3);
-            var website_cell = row.insertCell(4);
+            var directions_cell = row.insertCell(1);
+            var address_cell = row.insertCell(2);
+            var hours_cell = row.insertCell(3);
+            var phone_cell = row.insertCell(4);
+            var website_cell = row.insertCell(5);
             name_cell.innerHTML = name;
-            url_query_address = address.replace(/[ ]/g, '+');
+
+            // get the directions overview (miles and minutes) for this location
             curLat = position.coords.latitude;
             curLon = position.coords.longitude;
+            var directionsService = new google.maps.DirectionsService();
+            var miles_and_minutes = "Not available";
+            // getting directions:
+            var request = {
+              origin: new google.maps.LatLng(curLat, curLon),
+              destination: address,
+              travelMode: 'DRIVING'
+            };
+            directionsService.route(request, function(response, status) {
+              if (status == 'OK') {
+                miles_and_minutes = response.routes[0].legs[0].distance.text + ", " +
+                                    response.routes[0].legs[0].duration.text;
+                directions_cell.innerHTML = miles_and_minutes;
+              }
+              else {
+                directions_cell.innerHTML = miles_and_minutes;
+              }  
+            });
+            
+            // directions_cell.innerHTML = miles_and_minutes;
+            url_query_address = address.replace(/[ ]/g, '+');
+            
             directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
                               "' target='_blank' >" + address + "</a>";
             address_cell.innerHTML = directions_link;
@@ -216,7 +239,6 @@
       background-color: #f5f5f5;
     }
   </style>
-  </head>
 
   <h2 align="center">Food Banks Nearby</h2>
 
@@ -227,6 +249,7 @@
       <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
         <thead>
           <th>Name:</th>
+          <th>Direction Overview:</th>
           <th>Address:</th>
           <th>Operating Hours:</th>
           <th>Phone Number:</th>
