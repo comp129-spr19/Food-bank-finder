@@ -3,11 +3,12 @@
 <html lang="en">
 <title>Project2 | Food Bank</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <style>
   body,
   h1,
@@ -33,56 +34,41 @@
 
 <body>
 
-  <!-- First Grid -->
-  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-    <div class="w3-content">
-      <div class="w3-third w3-center">
-        <img src="http://pluspng.com/img-png/google-maps-png-google-maps-icon-1600.png" width="250" height="250">
-      </div>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
 
-      <div class="w3-twothird">
-        <h1>Map and Results are Shown Below</h1>
-      </div>
-    </div>
-  </div>
+  <script>
+    var map;
 
-  <!-- Google Maps Embed Grid -->
+    function init() {
+      navigator.geolocation.getCurrentPosition(initMap);
+    }
 
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+    function initMap(position) {
+      var curLat = position.coords.latitude;
+      var curLon = position.coords.longitude;
+      var currentLocation = new google.maps.LatLng(curLat, curLon);
 
-    <script>
-      var map;
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: currentLocation,
+        mapTypeId: 'terrain'
+      });
 
-      function init() {
-        navigator.geolocation.getCurrentPosition(initMap);
-      }
+      var request = {
+        location: currentLocation,
+        radius: '3000',
+        keyword: 'food bank'
+      };
 
-      function initMap(position) {
-        var curLat = position.coords.latitude;
-        var curLon = position.coords.longitude;
-        var currentLocation = new google.maps.LatLng(curLat, curLon);
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: currentLocation,
-          mapTypeId: 'terrain'
-        });
-
-        var request = {
-          location: currentLocation,
-          radius: '3000',
-          keyword: 'food bank'
-        };
-
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            map.setCenter(currentLocation);
-            displayResults(results, position);
-          }
-        });
-      }
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          map.setCenter(currentLocation);
+          displayResults(results, position);
+        }
+      });
+    }
 
     // This function handles both creating the markers and printing
     // the results on the table below the map.  The reason for combining
@@ -160,15 +146,15 @@
             url_query_address = address.replace(/[ ]/g, '+');
             curLat = position.coords.latitude;
             curLon = position.coords.longitude;
-            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
-                              "' target='_blank' >" + address + "</a>";
+            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" +
+              url_query_address +
+              "' target='_blank' >" + address + "</a>";
             address_cell.innerHTML = directions_link;
             hours_cell.innerHTML = hours;
             phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
             if (website != "Not listed") {
-               website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
-            }
-            else {
+              website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
+            } else {
               website_cell.innerHTML = website;
             }
 
@@ -198,45 +184,20 @@
     <div style="width:100%; height:100%" id="map"></div>
   </div>
 
-  <!--- Begin results table styling -->
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 60%;
-    }
-
-    th,
-    td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: px solid #ddd;
-    }
-
-    tr:hover {
-      background-color: #f5f5f5;
-    }
-  </style>
-  </head>
-
-  <h2 align="center">Food Banks Nearby</h2>
-
-  <!--<div id="places"></div>-->
-
-  <div class="wrapper">
-    <div class="profile">
-      <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
+  <div class="container">
+    <h2 align="center">Food Banks Nearby</h2>
+    <div class="table-responsive">
+      <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;" class="table">
         <thead>
-          <th>Name:</th>
-          <th>Address:</th>
-          <th>Operating Hours:</th>
-          <th>Phone Number:</th>
-          <th>Website:</th>
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Operating Hours</th>
+            <th>Phone</th>
+            <th>Website</th>
+          </tr>
         </thead>
-        <tbody>
-
-        </tbody>
       </table>
-
     </div>
   </div>
 
