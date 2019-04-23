@@ -16,5 +16,5 @@ class FoodBankEvents(models.Model):
     food_bank_date = models.DateTimeField('Event Date')
     food_bank_description = models.TextField(blank=True)
 
-    def __str__(self):
-        return self.food_bank_name + '  ' +self.food_bank_event + '  ' + self.food_bank_date + '  ' + self.food_bank_description
+    def get_name(self):
+        return self.food_bank_name
