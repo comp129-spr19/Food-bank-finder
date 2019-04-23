@@ -4,7 +4,8 @@ REQUIRED_PACKAGES = [
     'django==2.1.7',
     'pycodestyle==2.5.0',
     'pre-commit==1.14.4',
-    'setuptools==27.2.0'
+    'setuptools==27.2.0',
+    'selenium'
 ]
 
 if __name__ == "__main__":

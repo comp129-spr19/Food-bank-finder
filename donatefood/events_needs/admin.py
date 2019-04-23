@@ -6,3 +6,4 @@ from .models import FoodBanks, FoodBankEvents
 # this line allows us to see the models 
 # on the localhost admin site
 admin.site.register(FoodBanks)
+admin.site.register(FoodBankEvents)
