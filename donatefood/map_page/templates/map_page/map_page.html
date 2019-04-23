@@ -30,6 +30,10 @@
   .fa-coffee {
     font-size: 200px
   }
+
+  .nameCell {
+    cursor: pointer;
+  }
 </style>
 
 <body>
@@ -146,6 +150,9 @@
             var website_cell = row.insertCell(5);
             name_cell.innerHTML = name;
 
+            // add name_cell to nameCell class
+            name_cell.classList.add("nameCell");
+
             // get the directions overview (miles and minutes) for this location
             curLat = position.coords.latitude;
             curLon = position.coords.longitude;
@@ -189,6 +196,13 @@
                 directions_link + '</div>');
               infowindow.open(map, this);
             });
+
+            // add onclick listener to name cell.  If the user clicks on the name,
+            // it will open the info window on the map for that item.
+            name_cell.onclick = function() {
+              google.maps.event.trigger(marker, 'click');
+              window.scrollTo(0, 0);
+            }
 
             bounds.extend(results.geometry.location);
             if (count == length) {
