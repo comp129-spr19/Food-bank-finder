@@ -21,17 +21,4 @@ class Migration(migrations.Migration):
                 ('food_bank_description', models.TextField(blank=True)),
             ],
         ),
-        migrations.CreateModel(
-            name='FoodBanks',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('food_bank_name', models.CharField(max_length=100, verbose_name='Food Bank Name')),
-                ('food_bank_address', models.TextField(blank=True)),
-            ],
-        ),
-        migrations.AddField(
-            model_name='foodbankevents',
-            name='food_bank_id',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='events_needs.FoodBanks'),
-        ),
     ]

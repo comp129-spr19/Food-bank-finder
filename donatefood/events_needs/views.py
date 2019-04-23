@@ -4,7 +4,7 @@ from django.views.generic import (
 		TemplateView, 
 		ListView
 )
-from .models import FoodBanks
+from .models import FoodBankEvents
 
 
 
@@ -16,4 +16,4 @@ class EventView(TemplateView):
 	template_name = 'events_needs/events_needs.html'
 
 	def get(self, request):
-		return Foodbanks.objects.all()
+		return FoodBankEvents.objects.all()
