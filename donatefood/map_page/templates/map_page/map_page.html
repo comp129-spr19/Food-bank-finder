@@ -39,7 +39,7 @@
 <body>
 
   <!-- Nav Bar -->
-  <p center> <a href="/" > Home </a> | Local Food Banks | <a href="/events_needs"> Local Events/Needs </a> </p>
+  <p center> <a href="/"> Home </a> | Local Food Banks | <a href="/events_needs"> Local Events/Needs </a> </p>
 
   <!-- First Grid -->
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
@@ -51,47 +51,48 @@
       <div class="w3-twothird">
         <h1>Map and Results are Shown Below</h1>
         <a href="/" class="w3-button w3-blue w3-padding-large w3-large w3-margin-top">Home</a>
-  </header>
+        </header>
       </div>
     </div>
   </div>
 
   <!-- Google Maps Embed Grid -->
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places">
+  </script>
 
-    <script>
-      var map;
+  <script>
+    var map;
 
-      function init() {
-        navigator.geolocation.getCurrentPosition(initMap);
-      }
+    function init() {
+      navigator.geolocation.getCurrentPosition(initMap);
+    }
 
-      function initMap(position) {
-        var curLat = position.coords.latitude;
-        var curLon = position.coords.longitude;
-        var currentLocation = new google.maps.LatLng(curLat, curLon);
+    function initMap(position) {
+      var curLat = position.coords.latitude;
+      var curLon = position.coords.longitude;
+      var currentLocation = new google.maps.LatLng(curLat, curLon);
 
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: currentLocation,
-          mapTypeId: 'terrain'
-        });
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: currentLocation,
+        mapTypeId: 'terrain'
+      });
 
-        var request = {
-          location: currentLocation,
-          radius: '3000',
-          keyword: 'food bank'
-        };
+      var request = {
+        location: currentLocation,
+        radius: '3000',
+        keyword: 'food bank'
+      };
 
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            map.setCenter(currentLocation);
-            displayResults(results, position);
-          }
-        });
-      }
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          map.setCenter(currentLocation);
+          displayResults(results, position);
+        }
+      });
+    }
 
     // This function handles both creating the markers and printing
     // the results on the table below the map.  The reason for combining
@@ -182,13 +183,12 @@
               destination: address,
               travelMode: 'DRIVING'
             };
-            directionsService.route(request, function(response, status) {
+            directionsService.route(request, function (response, status) {
               if (status == 'OK') {
                 miles_and_minutes = response.routes[0].legs[0].distance.text + ", " +
-                                    response.routes[0].legs[0].duration.text;
+                  response.routes[0].legs[0].duration.text;
                 directions_cell.innerHTML = miles_and_minutes;
-              }
-              else {
+              } else {
                 directions_cell.innerHTML = miles_and_minutes;
               }
             });
@@ -196,15 +196,15 @@
             // directions_cell.innerHTML = miles_and_minutes;
             url_query_address = address.replace(/[ ]/g, '+');
 
-            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
-                              "' target='_blank' >" + address + "</a>";
+            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" +
+              url_query_address +
+              "' target='_blank' >" + address + "</a>";
             address_cell.innerHTML = directions_link;
             hours_cell.innerHTML = hours;
             phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
             if (website != "Not listed") {
-               website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
-            }
-            else {
+              website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
+            } else {
               website_cell.innerHTML = website;
             }
 
@@ -217,7 +217,7 @@
 
             // add onclick listener to name cell.  If the user clicks on the name,
             // it will open the info window on the map for that item.
-            name_cell.onclick = function() {
+            name_cell.onclick = function () {
               google.maps.event.trigger(marker, 'click');
               window.scrollTo(0, 0);
             }
@@ -263,7 +263,7 @@
   <!--<div id="places"></div>-->
 
   <div class="container">
-  <h2 align="center">Food Banks Nearby</h2>
+    <h2 align="center">Food Banks Nearby</h2>
     <div class="table-responsive">
       <div class="profile">
         <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
