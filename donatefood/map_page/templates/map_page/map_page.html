@@ -38,6 +38,9 @@
 
 <body>
 
+  <!-- Nav Bar -->
+  <p center> <a href="/" > Home </a> | Local Food Banks | <a href="/events_needs"> Local Events/Needs </a> </p>
+
   <!-- First Grid -->
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
     <div class="w3-content">
@@ -187,12 +190,12 @@
               }
               else {
                 directions_cell.innerHTML = miles_and_minutes;
-              }  
+              }
             });
-            
+
             // directions_cell.innerHTML = miles_and_minutes;
             url_query_address = address.replace(/[ ]/g, '+');
-            
+
             directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
                               "' target='_blank' >" + address + "</a>";
             address_cell.innerHTML = directions_link;
