@@ -20,7 +20,6 @@ script:
 - qunit 'tests/unit_tests/js/*_test.js'
 
 # Continuous Integration Tests
-- py.test ./tests/functional/events_needs_test.py
 - py.test ./tests/functional/home_page_test.py
 - py.test ./tests/functional/map_page_test.py
 notifications:
