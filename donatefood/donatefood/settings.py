@@ -30,7 +30,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'events_needs',
     'home',
     'map_page',
     'django.contrib.admin',

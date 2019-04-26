@@ -45,9 +45,6 @@ class TestHomePage(unittest.TestCase):
 
         # TODO: incorporate code below when frame switch infrastructure added
 
-        # en = self.driver.find_element_by_id("eventsNeedsButton")
-        # self.assertFalse(en is None)
-
         # mp = self.driver.find_element_by_id("mapPageButton")
         # self.assertFalse(mp is None)
 
