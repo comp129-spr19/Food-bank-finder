@@ -36,7 +36,8 @@
       <p>Register the details for your Food Banks upcoming events. This allows donators to know what you need.</p>
 
       <div class="container">
-        <form action=" " method = "POST">
+        <form class=" " method = "post" action="/add_event_form_submission/">
+          <!--DO NOT REMOVE THIS IS FOR SECURITY & AVOIDING ERRORS-->
           {% csrf_token %}
           <div class="row">
 
@@ -57,7 +58,7 @@
             </div>
 
             <div class="col-75">
-              <input type="text" id="ename" name="eventname" placeholder="List the name of your event..">
+              <input type="text" id="ename" name="ename" placeholder="List the name of your event..">
             </div>
 
           </div>
