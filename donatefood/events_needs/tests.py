@@ -10,7 +10,7 @@ from django.test import (
 )
 
 from .models import (
-	FoodBankEvents
+	FoodBankEvent
 )
 
 
@@ -22,19 +22,19 @@ from .models import (
 class FoodBankEventsTests(TestCase):
 
 	def test_string_representation(self):
-		foodbank = FoodBankEvents(food_bank_name = "Jillian's foodbank")
+		foodbank = FoodBankEvent(food_bank_name = "Jillian's foodbank")
 		self.assertEqual(foodbank.get_name(), foodbank.food_bank_name)
 
 
 	def test_future_dated_polls(self):
-		foodbank = FoodBankEvents.objects.create(food_bank_name = "Jillian's foodbank",
+		foodbank = FoodBankEvent.objects.create(food_bank_name = "Jillian's foodbank",
 			food_bank_event = "Coat drive", food_bank_date = (datetime.datetime.now() + datetime.timedelta(days=1)),
 			food_bank_description = "Bring us coats")
 		self.assertGreater(foodbank.food_bank_date, datetime.datetime.now())
 
 
 	def test_past_dated_polls(self):
-		foodbank = FoodBankEvents.objects.create(food_bank_name = "Jillian's foodbank",
+		foodbank = FoodBankEvent.objects.create(food_bank_name = "Jillian's foodbank",
 			food_bank_event = "Coat drive", food_bank_date = (datetime.datetime.now() + datetime.timedelta(days=-5)),
 			food_bank_description = "Bring us coats")
 		self.assertLess(foodbank.food_bank_date, datetime.datetime.now())
