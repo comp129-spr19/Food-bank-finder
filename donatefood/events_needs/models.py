@@ -17,3 +17,7 @@ class FoodBankEvent(models.Model):
     def __str__(self):
         return self.food_bank_name + ' ' + self.food_bank_event + ' ' + \
             str(self.food_bank_date) + ' ' + self.food_bank_description
+
+    def get_name(self):
+    	return self.food_bank_name
+
