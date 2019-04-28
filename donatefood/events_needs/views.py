@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import FoodBankEvent
 
 def index(request):
+	#all_foodbank_events = FoodBankEvent.objects.all()
 	return render(request, "events_needs/events_needs.html")
 
 #TODO: Add this as separate page once database can pull data from form and be displayed
