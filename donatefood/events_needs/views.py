@@ -32,6 +32,4 @@ def add_event_form_submission(request):
 	
 	all_foodbank_events = FoodBankEvent.objects.all()
 	
-	return render(request, "events_needs/events_needs.html", {'FBEvents': all_foodbank_events})
-
-	#return render(request, "events_needs/events_needs.html")
+	return render(request, "events_needs/events_needs.html", {'FBEvents': all_foodbank_events, 'submission_msg': "Form submitted successfully!"})
