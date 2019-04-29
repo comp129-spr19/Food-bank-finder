@@ -15,6 +15,7 @@ def AddEvent(request):
 def add_event_form_submission(request):
 	print("Form has been submitted") #printed on terminal
 	fbname = request.POST["fbname"]
+	
 	ename = request.POST["ename"]
 	date = request.POST.get("eventDate")
 	descript = request.POST["descript"]
