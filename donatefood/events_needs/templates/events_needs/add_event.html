@@ -1,0 +1,69 @@
+{% extends 'events_needs/events_needs.html' %}
+
+{% block content %}
+    
+<h2>Registry Event Form</h2>
+      <p>Register the details for your Food Banks upcoming events. This allows donators to know what you need.</p>
+
+      <div class="container">
+        <form class=" " method = "post" action="/events_needs/add_event_form_submission/">
+          <!--DO NOT REMOVE THIS IS FOR SECURITY & AVOIDING ERRORS-->
+          {% csrf_token %}
+          <div class="row">
+
+            <div class="col-25">
+              <label for="fbname" type= "text">Food Bank Name</label>
+            </div>
+
+            <div class="col-75">
+              <input type="text" id="fbname" name="fbname" placeholder="Your Food Bank name..">
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-25">
+              <label for="ename">Name of Event</label>
+            </div>
+
+            <div class="col-75">
+              <input type="text" id="ename" name="ename" placeholder="List the name of your event..">
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-25">
+              <label for="date">Date</label>
+            </div>
+
+            <div class="col-75">
+              <input type= "date" name="eventDate" /> 
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-25">
+              <label for="descript">Event Description</label>
+            </div>
+
+            <div class="col-75">
+              <textarea id="descript" name="descript" placeholder="Write what you need here.." style="height:200px"></textarea>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <input type="submit" value="Submit">
+          </div>
+
+        </form>
+      </div>
+
+
+
+{% endblock content %}
