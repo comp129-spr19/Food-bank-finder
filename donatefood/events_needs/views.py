@@ -15,10 +15,14 @@ def AddEvent(request):
 def add_event_form_submission(request):
 	print("Form has been submitted") #printed on terminal
 	fbname = request.POST["fbname"]
-	
 	ename = request.POST["ename"]
 	date = request.POST.get("eventDate")
 	descript = request.POST["descript"]
+
+	# this method ensures requirment fields are met on the server side
+	if fbname is "" or ename is "" or descript is "" or date is "":
+		print("invalid input")
+		return render(request, "events_needs/add_event.html", {'error_msg': "All fields are required"})
 
 	food_bank_info = FoodBankEvent.objects.create(food_bank_name = fbname, food_bank_event = ename, 
 									food_bank_date = date, food_bank_description = descript)
@@ -31,4 +35,3 @@ def add_event_form_submission(request):
 	return render(request, "events_needs/events_needs.html", {'FBEvents': all_foodbank_events})
 
 	#return render(request, "events_needs/events_needs.html")
-
