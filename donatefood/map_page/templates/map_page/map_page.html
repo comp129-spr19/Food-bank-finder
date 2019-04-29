@@ -30,7 +30,6 @@
   .fa-coffee {
     font-size: 200px
   }
-
   .nameCell {
     cursor: pointer;
   }
@@ -38,264 +37,216 @@
 
 <body>
 
-<!-- Navbar -->
-<div class="w3-top">
-<div class="w3-bar w3-light-grey w3-card w3-left-align w3-large">
-<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-light-grey" href="javascript:void(0);" onclick="navBar()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-<a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-<a href="" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Find Food Banks</a>
-<a href="/events_needs/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Events and Needs</a>
-</div>
+  {% include "home/navbar.html" %}
 
-<!-- Navbar on small screens -->
-<div id="navBar" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-<a href="" class="w3-bar-item w3-button w3-padding-large">Find Food Banks</a>
-<a href="/events_needs/" class="w3-bar-item w3-button w3-padding-large">Events and Needs</a>
-</div>
-</div>
-<div>
-<br><br><br>
-</div>
+<!-- Google Maps Embed Grid -->
 
-<script>
-// Used to toggle the menu on small screens when clicking on the menu button
-function navBar() {
-    var x = document.getElementById("navBar");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
+
+  <script>
+    var map;
+    function init() {
+      navigator.geolocation.getCurrentPosition(initMap);
     }
-}
-</script>
-
-  <!-- Google Maps Embed Grid -->
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJltxwttdE1THuT4ogdGHtsM6VWJ_T1mU&libraries=places"></script>
-
-    <script>
-      var map;
-
-      function init() {
-        navigator.geolocation.getCurrentPosition(initMap);
-      }
-
-      function initMap(position) {
-        var curLat = position.coords.latitude;
-        var curLon = position.coords.longitude;
-        var currentLocation = new google.maps.LatLng(curLat, curLon);
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: currentLocation,
-          mapTypeId: 'terrain'
-        });
-
-        var request = {
-          location: currentLocation,
-          radius: '3000',
-          keyword: 'food bank'
-        };
-
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            map.setCenter(currentLocation);
-            displayResults(results, position);
+    function initMap(position) {
+      var curLat = position.coords.latitude;
+      var curLon = position.coords.longitude;
+      var currentLocation = new google.maps.LatLng(curLat, curLon);
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: currentLocation,
+        mapTypeId: 'terrain'
+      });
+      var request = {
+        location: currentLocation,
+        radius: '3000',
+        keyword: 'food bank'
+      };
+      service = new google.maps.places.PlacesService(map);
+      service.nearbySearch(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          map.setCenter(currentLocation);
+          displayResults(results, position);
+        }
+      });
+    }
+  // This function handles both creating the markers and printing
+  // the results on the table below the map.  The reason for combining
+  // these two functionalities is because the GoogleMaps Places API
+  // requires gathering detailed information about a place one-by-one,
+  // so first we must get the list from our nearbySearch and then loop
+  // through each result to get the details.  Therefore it most efficient
+  // to combine and do this only once.  Also, because of the delay of
+  // response from Google, we can't loop through the results and pass
+  // a list of all the details to functions because the code will execute
+  // and send an empty list before the first response comes back.
+  function displayResults(places, position) {
+    var table = document.getElementById("google_map_results");
+    var bounds = new google.maps.LatLngBounds();
+    service_detail = new google.maps.places.PlacesService(map);
+    var count = 0;
+    var length = places.length;
+    for (var i = 0, place; place = places[i]; i++) {
+      count++;
+      // gets more details on each place
+      var request = {
+        reference: place.reference,
+        fields: ['name', 'formatted_address', 'formatted_phone_number',
+          'website', 'opening_hours', 'geometry', 'icon'
+        ]
+      };
+      var infowindow = new google.maps.InfoWindow();
+      service_detail.getDetails(request, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          // store the detailed value to variables
+          var name = results.name;
+          var address = results.formatted_address;
+          var hours = "Not listed";
+          if (results.opening_hours != null) {
+            hours = "Hours:<br>"
+            for (var i = 0; i < results.opening_hours.weekday_text.length; i++) {
+              hours += results.opening_hours.weekday_text[i] + "<br>";
+            }
           }
-        });
-      }
-
-    // This function handles both creating the markers and printing
-    // the results on the table below the map.  The reason for combining
-    // these two functionalities is because the GoogleMaps Places API
-    // requires gathering detailed information about a place one-by-one,
-    // so first we must get the list from our nearbySearch and then loop
-    // through each result to get the details.  Therefore it most efficient
-    // to combine and do this only once.  Also, because of the delay of
-    // response from Google, we can't loop through the results and pass
-    // a list of all the details to functions because the code will execute
-    // and send an empty list before the first response comes back.
-    function displayResults(places, position) {
-      var table = document.getElementById("google_map_results");
-      var bounds = new google.maps.LatLngBounds();
-      service_detail = new google.maps.places.PlacesService(map);
-      var count = 0;
-      var length = places.length;
-      for (var i = 0, place; place = places[i]; i++) {
-        count++;
-        // gets more details on each place
-        var request = {
-          reference: place.reference,
-          fields: ['name', 'formatted_address', 'formatted_phone_number',
-            'website', 'opening_hours', 'geometry', 'icon'
-          ]
-        };
-
-        var infowindow = new google.maps.InfoWindow();
-        service_detail.getDetails(request, function (results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            // store the detailed value to variables
-
-            var name = results.name;
-            var address = results.formatted_address;
-            var hours = "Not listed";
-            if (results.opening_hours != null) {
-              hours = "Hours:<br>"
-              for (var i = 0; i < results.opening_hours.weekday_text.length; i++) {
-                hours += results.opening_hours.weekday_text[i] + "<br>";
-              }
-            }
-            var phone = results.formatted_phone_number;
-            var website = "Not listed";
-            if (results.website != null) {
-              var website = results.website;
-            }
-
-            // add the marker
-            // first, use the image relating to the type of place
-            var image = {
-              url: results.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
-
-            var marker = new google.maps.Marker({
-              map: map,
-              icon: image,
-              title: results.name,
-              position: results.geometry.location
-            });
-
-            // add the values to the table
-            // Value of -1 for insertRow inserts column at end of table
-            // @dvasavda website and phone are now hyperlinked
-            var row = table.insertRow(-1);
-            var name_cell = row.insertCell(0);
-            var directions_cell = row.insertCell(1);
-            var address_cell = row.insertCell(2);
-            var hours_cell = row.insertCell(3);
-            var phone_cell = row.insertCell(4);
-            var website_cell = row.insertCell(5);
-            name_cell.innerHTML = name;
-
-            // add name_cell to nameCell class
-            name_cell.classList.add("nameCell");
-
-            // get the directions overview (miles and minutes) for this location
-            curLat = position.coords.latitude;
-            curLon = position.coords.longitude;
-            var directionsService = new google.maps.DirectionsService();
-            var miles_and_minutes = "Not available";
-            // getting directions:
-            var request = {
-              origin: new google.maps.LatLng(curLat, curLon),
-              destination: address,
-              travelMode: 'DRIVING'
-            };
-            directionsService.route(request, function(response, status) {
-              if (status == 'OK') {
-                miles_and_minutes = response.routes[0].legs[0].distance.text + ", " +
-                                    response.routes[0].legs[0].duration.text;
-                directions_cell.innerHTML = miles_and_minutes;
-              }
-              else {
-                directions_cell.innerHTML = miles_and_minutes;
-              }  
-            });
-            
-            // directions_cell.innerHTML = miles_and_minutes;
-            url_query_address = address.replace(/[ ]/g, '+');
-            
-            directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
-                              "' target='_blank' >" + address + "</a>";
-            address_cell.innerHTML = directions_link;
-            hours_cell.innerHTML = hours;
-            phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
-            if (website != "Not listed") {
-               website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
+          var phone = results.formatted_phone_number;
+          var website = "Not listed";
+          if (results.website != null) {
+            var website = results.website;
+          }
+          // add the marker
+          // first, use the image relating to the type of place
+          var image = {
+            url: results.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+          var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            title: results.name,
+            position: results.geometry.location
+          });
+          // add the values to the table
+          // Value of -1 for insertRow inserts column at end of table
+          // @dvasavda website and phone are now hyperlinked
+          var row = table.insertRow(-1);
+          var name_cell = row.insertCell(0);
+          var directions_cell = row.insertCell(1);
+          var address_cell = row.insertCell(2);
+          var hours_cell = row.insertCell(3);
+          var phone_cell = row.insertCell(4);
+          var website_cell = row.insertCell(5);
+          name_cell.innerHTML = name;
+          // add name_cell to nameCell class
+          name_cell.classList.add("nameCell");
+          // get the directions overview (miles and minutes) for this location
+          curLat = position.coords.latitude;
+          curLon = position.coords.longitude;
+          var directionsService = new google.maps.DirectionsService();
+          var miles_and_minutes = "Not available";
+          // getting directions:
+          var request = {
+            origin: new google.maps.LatLng(curLat, curLon),
+            destination: address,
+            travelMode: 'DRIVING'
+          };
+          directionsService.route(request, function(response, status) {
+            if (status == 'OK') {
+              miles_and_minutes = response.routes[0].legs[0].distance.text + ", " +
+                                  response.routes[0].legs[0].duration.text;
+              directions_cell.innerHTML = miles_and_minutes;
             }
             else {
-              website_cell.innerHTML = website;
-            }
-
-            // adds click listener that shows more info when user clicks on icon
-            google.maps.event.addListener(marker, 'click', function () {
-              infowindow.setContent('<div><strong>' + name + '</strong><br>' +
-                directions_link + '</div>');
-              infowindow.open(map, this);
-            });
-
-            // add onclick listener to name cell.  If the user clicks on the name,
-            // it will open the info window on the map for that item.
-            name_cell.onclick = function() {
-              google.maps.event.trigger(marker, 'click');
-              window.scrollTo(0, 0);
-            }
-
-            bounds.extend(results.geometry.location);
-            if (count == length) {
-              map.fitBounds(bounds);
-            }
-
-          } else {
-            console.log(google.maps.places.PlacesServiceStatus.OK);
+              directions_cell.innerHTML = miles_and_minutes;
+            }  
+          });
+          
+          // directions_cell.innerHTML = miles_and_minutes;
+          url_query_address = address.replace(/[ ]/g, '+');
+          
+          directions_link = "<a href='https://www.google.com/maps/dir/" + curLat + "+" + curLon + "/" + url_query_address +
+                            "' target='_blank' >" + address + "</a>";
+          address_cell.innerHTML = directions_link;
+          hours_cell.innerHTML = hours;
+          phone_cell.innerHTML = "<a href='tel:" + phone + "'>" + phone + "</a>";;
+          if (website != "Not listed") {
+             website_cell.innerHTML = "<a href='" + website + "'target='_blank'>" + website + "</a>";
           }
-        });
-      }
+          else {
+            website_cell.innerHTML = website;
+          }
+          // adds click listener that shows more info when user clicks on icon
+          google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent('<div><strong>' + name + '</strong><br>' +
+              directions_link + '</div>');
+            infowindow.open(map, this);
+          });
+          // add onclick listener to name cell.  If the user clicks on the name,
+          // it will open the info window on the map for that item.
+          name_cell.onclick = function() {
+            google.maps.event.trigger(marker, 'click');
+            window.scrollTo(0, 0);
+          }
+          bounds.extend(results.geometry.location);
+          if (count == length) {
+            map.fitBounds(bounds);
+          }
+        } else {
+          console.log(google.maps.places.PlacesServiceStatus.OK);
+        }
+      });
     }
+  }
+  google.maps.event.addDomListener(window, 'load', init);
+</script>
 
-    google.maps.event.addDomListener(window, 'load', init);
-  </script>
+<div style="width:600px; height:600px; margin-left: auto; margin-right: auto;">
+  <div style="width:100%; height:100%" id="map"></div>
+</div>
 
-  <div style="width:600px; height:600px; margin-left: auto; margin-right: auto;">
-    <div style="width:100%; height:100%" id="map"></div>
-  </div>
+<!--- Begin results table styling -->
+<style>
+  table {
+    border-collapse: collapse;
+    width: 60%;
+  }
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: px solid #ddd;
+  }
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+</style>
 
-  <!--- Begin results table styling -->
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 60%;
-    }
+<!--<div id="places"></div>-->
 
-    th,
-    td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: px solid #ddd;
-    }
+<div class="container">
+<h2 align="center">Food Banks Nearby</h2>
+  <div class="table-responsive">
+    <div class="profile">
+      <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
+        <thead>
+          <th>Name:</th>
+          <th>Direction Overview:</th>
+          <th>Address:</th>
+          <th>Operating Hours:</th>
+          <th>Phone Number:</th>
+          <th>Website:</th>
+        </thead>
+        <tbody>
 
-    tr:hover {
-      background-color: #f5f5f5;
-    }
-  </style>
-
-  <!--<div id="places"></div>-->
-
-  <div class="container">
-  <h2 align="center">Food Banks Nearby</h2>
-    <div class="table-responsive">
-      <div class="profile">
-        <table id="google_map_results" border="2" style="margin-left: auto; margin-right: auto;">
-          <thead>
-            <th>Name:</th>
-            <th>Direction Overview:</th>
-            <th>Address:</th>
-            <th>Operating Hours:</th>
-            <th>Phone Number:</th>
-            <th>Website:</th>
-          </thead>
-          <tbody>
-
-          </tbody>
-        </table>
+        </tbody>
+      </table>
 
       </div>
     </div>
   </div>
+</div>
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-64 w3-center w3-opacity">

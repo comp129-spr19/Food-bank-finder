@@ -9,33 +9,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-  body,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: "Lato", sans-serif
-  }
-
-  tr.title_entry
-  {
-    cursor:pointer;
-  }
-
-  .w3-bar,
-  h1,
-  button {
-    font-family: "Montserrat", sans-serif
-  }
-
-  .fa-anchor,
-  .fa-coffee {
-    font-size: 200px
-  }
-</style>
+<!--This keeps the css files in a static file-->
+{% load static %}
+<link rel="stylesheet" href= "{% static 'css/stylesheet.css' %}" >
+{% include "home/navbar.html" %}
 
 <body>
 
@@ -76,71 +53,41 @@ function navBar() {
     <h1 class="w3-margin w3-jumbo">Event Registry</h1>
     <p class="w3-small"></p>
   </header>
-
+    
   <!-- Second Grid -->
 
-  <div id="eventsList" class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-
-    {% comment %} <div class="w3-content"> {% endcomment %}
+  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+      
+    <!-- <div class="w3-content">
       <div class="w3-third w3-center">
         <br><br>
         <img height=200 src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fblog.uwgb.edu%2Fstudent-life%2Ffiles%2F2014%2F08%2Fpaper_grocery_bag_filled_with_produce_by_mike44nh-d4usz6t.png&f=1" >
       </div>
-      <div class="w3-twothird">
-        <h1>Food Bank Events and Needs</h1>
-        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
-          <!--Right now, these values are hardcoded in, but once we set up the backend,
-          we will use jenja to query the database and display the results-->
-          <tr class="title_entry">
-            <td>Foodbank 1</td>
-            <td>Event/Need 1</td>
-          </tr>
-          <tr style="display:none;">
-            <td colspan=2>
-              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
-            </td>
-          </tr>
-          <tr class="title_entry">
-            <td>Foodbank 2</td>
-            <td>Event/Need 2</td>
-          </tr>
-          <tr style="display:none;">
-            <td colspan=2>
-              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
-            </td>
-          </tr>
-          <tr class="title_entry">
-            <td>Foodbank 3</td>
-            <td>Event/Need 3</td>
-          </tr>
-          <tr style="display:none;">
-            <td colspan=2>
-              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
-            </td>
-          </tr>
-          <tr class="title_entry">
-            <td>Foodbank 4</td>
-            <td>Event/Need 4</td>
-          </tr>
-          <tr style="display:none;">
-            <td colspan=2>
-              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
-            </td>
-          </tr>
-          <tr class="title_entry">
-            <td>Foodbank 5</td>
-            <td>Event/Need 5</td>
-          </tr>
-          <tr style="display:none;">
-            <td colspan=2>
-              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">More info here!</div>
-            </td>
-          </tr>
-        </table><br>
-        </div>
-      {% comment %} </div> {% endcomment %}
-    </div>
+    </div> -->
 
+    {% block content %}
+
+      <h3 style="color: blue;"> {{ submission_msg }} </h3>
+      <h1>Food Bank Events and Needs</h1>
+
+      <p>The following Food Banks have events. <a href= "/events_needs/add_event/"> Click here </a> to add an event.</p>
+        <!--For loop to iterate through the database info and maintain the table structure-->
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+          
+        {% for fb in FBEvents %}
+          <tr class="title_entry">
+            <td> {{ fb.food_bank_name }} </td>
+            <td> {{ fb.food_bank_event}} </td>
+          </tr>
+          <tr style="display:none;">
+            <td colspan=2>
+              <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container"> {{fb.food_bank_description}} </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </table><br>
+    {% endblock %}
+     
   <!---<div class="w3-container w3-black w3-center w3-opacity w3-padding-54">
     <h1 class="w3-margin w3-large">Helping your local community grow</h1>
   </div>-->
@@ -167,4 +114,3 @@ function navBar() {
   });
 </script>
 
-</html>

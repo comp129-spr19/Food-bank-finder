@@ -1,7 +1,8 @@
 sudo: true
 language: python
+dist: xenial
 python:
-- 3.6.1
+- 3.7.3
 before_install:
 - sudo apt-get update -qq
 - sudo iptables -A INPUT -s 162.222.72.0/21 -j ACCEPT
@@ -18,6 +19,7 @@ lint:
 script:
 - py.test ./tests/unit_tests/travis_ci_builds_test.py
 - qunit 'tests/unit_tests/js/*_test.js'
+- python ./donatefood/manage.py test events_needs
 
 # Continuous Integration Tests
 - py.test ./tests/functional/events_needs_test.py
