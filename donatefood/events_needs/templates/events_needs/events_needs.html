@@ -41,9 +41,11 @@
     {% block content %}
      <h1>Food Bank Events and Needs</h1>
       <p>The following Food Banks have events. Have an event to add? Click the add events tab.</p>
+        <!--While loop to iterate through the database info and maintain the table structure-->
         <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
-          <tr class="title_entry">
+          
         {% for fb in FBEvents %}
+          <tr class="title_entry">
             <td> {{ fb.food_bank_name }} </td>
             <td> {{ fb.food_bank_event}} </td>
           </tr>
@@ -52,13 +54,10 @@
               <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container"> {{fb.food_bank_description}} </div>
             </td>
           </tr>
-        </table><br>
         {% endfor %}
+      </table><br>
     {% endblock %}
      
-
-      
-      
   <!---<div class="w3-container w3-black w3-center w3-opacity w3-padding-54">
     <h1 class="w3-margin w3-large">Helping your local community grow</h1>
   </div>-->
@@ -85,4 +84,3 @@
   });
 </script>
 
-</html>
