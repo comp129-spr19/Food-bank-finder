@@ -25,23 +25,19 @@
 
   <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
       
-    <div class="w3-content">
+    <!-- <div class="w3-content">
       <div class="w3-third w3-center">
         <br><br>
-        <!--<img height=200 src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fblog.uwgb.edu%2Fstudent-life%2Ffiles%2F2014%2F08%2Fpaper_grocery_bag_filled_with_produce_by_mike44nh-d4usz6t.png&f=1" >-->
+        <img height=200 src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fblog.uwgb.edu%2Fstudent-life%2Ffiles%2F2014%2F08%2Fpaper_grocery_bag_filled_with_produce_by_mike44nh-d4usz6t.png&f=1" >
       </div>
-    </div>
+    </div> -->
 
-    <nav>
-      <ul>
-        <a href= "/events_needs/add_event/"> Add Event </a>
-      </ul>
-    </nav>
+    <h1>Food Bank Events and Needs</h1>
 
     {% block content %}
-     <h1>Food Bank Events and Needs</h1>
-      <p>The following Food Banks have events. Have an event to add? Click the add events tab.</p>
-        <!--While loop to iterate through the database info and maintain the table structure-->
+
+      <p>The following Food Banks have events. <a href= "/events_needs/add_event/"> Click here </a> to add an event.</p>
+        <!--For loop to iterate through the database info and maintain the table structure-->
         <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
           
         {% for fb in FBEvents %}

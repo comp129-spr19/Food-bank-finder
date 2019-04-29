@@ -36,6 +36,16 @@ input[type=text], select, textarea {
   resize: vertical;
 }
 
+input[type=date], select {
+  width: 15%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  min-width: 150px;
+  max-width: 175px;
+}
+
 label {
   padding: 12px 12px 12px 0;
   display: inline-block;
