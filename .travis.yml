@@ -5,16 +5,30 @@ python:
 - 3.7.3
 before_install:
 - sudo apt-get update -qq
+- sudo iptables -A INPUT -s 162.222.72.0/21 -j ACCEPT
+- sudo iptables -A INPUT -s 66.85.48.0/21 -j ACCEPT
+- sudo iptables -A INPUT -s 185.94.24.0/22 -j ACCEPT
 install:
 - pip install django
+- pip install selenium
+- pip install sauceclient
 - curl -L https://www.npmjs.com/install.sh | sh
 - npm install -g qunit
 lint:
 - pipenv run flake8
 script:
-- python ./tests/unit_tests/travis_ci_builds_test.py
+- py.test ./tests/unit_tests/travis_ci_builds_test.py
 - qunit 'tests/unit_tests/js/*_test.js'
 - python ./donatefood/manage.py test events_needs
+
+# Continuous Integration Tests
+- py.test ./tests/functional/events_needs_test.py
+- py.test ./tests/functional/home_page_test.py
+- py.test ./tests/functional/map_page_test.py
 notifications:
   slack:
     secure: XyplTun0kKTAGM2uAeqL0y3vt7vyghOad/ZOQ/V9YOYj6Ij+s63bWS6ytk44diC6j48XhcCqQlwi7RDINNCASWY+JTY7n4POZju6SYjsOt9hwXFyFKT3GXr2vpG9jLs/21ohdS5JrsjqC0xa0B7uyVPRifDNVVY4kdKSZdurPzbpb8YmupE30uTZxi8ImokWd1832tbCYF4fH3pLGeLS97MkElgpw4YHTABnNy0kl5sNOkQJFsGDCDUHaPr4yVwRV7Wh0KN/kGv7SHxSKiyL8GWUde90uj5n7r7dcoulTT270yxl705cZxMEpHDvDPmeKSBeKORE/ZvaYdJ1IohL13PzgXmlqg5hmNwI0Q5DLSHEyaQ8x3gujhslR7jtRHSxelVzbunrBn7FpG3ULKx5yM8DknAyIbJBx6icyxHlDj1ERn0s4HLNHFqO41xNFC1vPfxynIJAdr1bYsl6LWqLeMQbJTqk61fZGD7gEo/sDTgUFvH/k9oMKefm4Pu7go7VTHjZsNkFFrHxmGAQH69lIgKSZ2tLKCEanvBjBijOLjREWan3zGsefZBqJTLvu8kY+5vm85SmOHHYsGbxiZx2GTa9WZ+GW5c6YXQfNtwNeNGImg/y6xMESr2nWUGP41VCL3e0KVGXsRYQhNHQB+6D9C9Ozgh5ZParx6hr01JVXmw=
+addons:
+  sauce_connect:
+    username: "mfraser4"
+    access_key: "c94932ab-2a0f-4b1a-959f-434c36622f36"
